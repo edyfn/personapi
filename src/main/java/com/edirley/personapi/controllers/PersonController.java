@@ -1,34 +1,33 @@
 package com.edirley.personapi.controllers;
 
-import lombok.AllArgsConstructor;
-import com.edirley.personapi.dto.request.PersonDTO;
+import com.edirley.personapi.entities.Person;
+import com.edirley.personapi.repository.PersonRepository;
 import com.edirley.personapi.dto.response.MessageResponseDTO;
-import com.edirley.personapi.exception.PersonNotFoundException;
-import com.edirley.personapi.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/people")
-@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PersonController {
 
-    @GetMapping
-    public String getBook() {
+    private PersonRepository personRepository;
 
-        return "Testando Api!";
+    @Autowired
+    public PersonController(PersonRepository personRepository) {
+        this.personRepository = personRepository;
+    }
+
+    @PostMapping
+    public MessageResponseDTO createPerson(@RequestBody Person person) {
+        Person savedPerson = personRepository.save(person);
+        return MessageResponseDTO
+                .builder()
+                .message("Created person with ID " + savedPerson.getId())
+                .build();
     }
 //    private final PersonService personService;
 //

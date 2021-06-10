@@ -1,4 +1,4 @@
-package com.edirley.personapi.repositories;
+package com.edirley.personapi.repository;
 
 import com.edirley.personapi.entities.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
