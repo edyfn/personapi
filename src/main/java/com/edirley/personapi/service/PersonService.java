@@ -1,25 +1,34 @@
-//package com.edirley.personapi.services;
-//
-//import lombok.AllArgsConstructor;
-//import com.edirley.personapi.dto.mapper.PersonMapper;
-//import com.edirley.personapi.dto.request.PersonDTO;
-//import com.edirley.personapi.dto.response.MessageResponseDTO;
-//import com.edirley.personapi.entities.Person;
-//import com.edirley.personapi.exception.PersonNotFoundException;
-//import com.edirley.personapi.repository.PersonRepository;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//
-//import java.util.List;
-//import java.util.stream.Collectors;
-//
-//@Service
-//@AllArgsConstructor(onConstructor = @__(@Autowired))
-//public class PersonService {
-//
-//    private final PersonRepository personRepository;
-//
-//    private final PersonMapper personMapper;
+package com.edirley.personapi.service;
+
+import com.edirley.personapi.dto.mapper.PersonMapper;
+import com.edirley.personapi.dto.response.MessageResponseDTO;
+import com.edirley.personapi.entities.Person;
+import com.edirley.personapi.repository.PersonRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+
+
+@Service
+public class PersonService {
+
+    private final PersonRepository personRepository;
+
+    @Autowired
+    public PersonService(PersonRepository personRepository) {
+        this.personRepository = personRepository;
+    }
+
+    public MessageResponseDTO createPerson(Person person) {
+        Person savedPerson = personRepository.save(person);
+        return MessageResponseDTO
+                .builder()
+                .message("Created person with ID " + savedPerson.getId())
+                .build();
+    }
+
+    //    private final PersonMapper personMapper;
 //
 //    public MessageResponseDTO create(PersonDTO personDTO) {
 //        Person person = personMapper.toModel(personDTO);
@@ -68,4 +77,4 @@
 //                .message(s + id2)
 //                .build();
 //    }
-//}
+}
