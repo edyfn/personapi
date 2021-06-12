@@ -4,6 +4,7 @@ import com.edirley.personapi.dto.mapper.PersonMapper;
 import com.edirley.personapi.dto.request.PersonDTO;
 import com.edirley.personapi.dto.response.MessageResponseDTO;
 import com.edirley.personapi.entities.Person;
+import com.edirley.personapi.exception.PersonNotFoundException;
 import com.edirley.personapi.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,14 @@ public class PersonService {
                 .map(personMapper::toDTO)
                 .collect(Collectors.toList());
     }
+
+    public PersonDTO findById(long id) throws PersonNotFoundException {
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new PersonNotFoundException(id));
+
+        return personMapper.toDTO(person);
+    }
+
 }
 
     //    private final PersonMapper personMapper;
